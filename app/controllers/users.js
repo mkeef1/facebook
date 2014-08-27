@@ -51,3 +51,30 @@ exports.update = function(req, res){
   });
 };
 
+exports.show = function(reg, res){
+  res.render('users/show');
+};
+
+exports.index = function(req, res){
+  User.find({isVisible:true}, function(err, users){
+    res.render('users/index', {users:users});
+  });
+};
+
+exports.person = function(req, res){
+  User.findOne({email:req.params.email, isVisible:true}, function(err, person){
+    if(person){
+      res.render('users/person', {person:person});
+    }else{
+      res.redirect('/users');
+    }
+  });
+};
+
+exports.message = function(req, res){
+  User.findById(req.params.userId, function(err, receiver){
+    res.locals.user.send(receiver, req.body, function(){
+      res.redirect('/users/' + receiver.email);
+    });
+  });
+};

@@ -67,7 +67,49 @@ describe('users', function(){
         expect(res.status).to.equal(200);
         expect(res.text).to.include('Email');
         expect(res.text).to.include('Phone');
-        expect(res.text).to.include('Public');
+        done();
+      });
+    });
+  });
+
+  describe('get /users', function(){
+    it('should show the users page', function(done){
+      request(app)
+      .get('/users')
+      .set('cookie', cookie)
+      .end(function(err,res){
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('bob@aol.com');
+        done();
+      });
+    });
+  });
+
+  describe('get /users/bob@aol.com', function(){
+    it('should show the a user page if visible', function(done){
+      request(app)
+      .get('/users/bob@aol.com')
+      .set('cookie', cookie)
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('bob@aol.com');
+        done();
+      });
+    });
+  });
+
+
+  /*
+   */
+  describe('post /message/3', function(){
+    it('should send a user a message', function(done){
+      request(app)
+      .post('/messages/000000000000000000000001')
+      .set('cookie', cookie)
+      .send('')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/users/bob@aol.com');
         done();
       });
     });
