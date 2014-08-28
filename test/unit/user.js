@@ -77,16 +77,5 @@ describe('User', function(){
         });
       });
     });
-
-    it('should send an internal message to a user', function(done){
-      User.findById('000000000000000000000001', function(err, sender){
-        User.findById('000000000000000000000002', function(err, receiver){
-          sender.send(receiver, {mtype:'internal', message:'yo'}, function(err, response){
-            expect(response.id).to.be.ok;
-            done();
-          });
-        });
-      });
-    });
   });
 });
