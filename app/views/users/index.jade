@@ -10,7 +10,7 @@ block content
     tbody
       each user in users
         tr
-          td= user.email
+          td: A(href='/users/#{user.email}')= user.email
           td= user.phone
           td: a(href=user.facebook, target='_blank')= user.facebook
           td: a(href=user.twitter, target='_blank')= user.twitter

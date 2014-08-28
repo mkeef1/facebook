@@ -22,11 +22,49 @@ describe('User', function(){
     });
   });
 
-  describe('constructor', function(){
-    it('should create a new User object', function(){
-      var u = new User();
-      expect(u).to.be.instanceof(User);
+  describe('#save', function(){
+    it('should save a user', function(done){
+      var u = new User(),
+          o = {x:3, visible:'public', foo:'bar'};
+
+      u.baz = 'bim';
+      u.save(o, function(err, user){
+        expect(user.isVisible).to.be.true;
+        expect(user.foo).to.equal('bar');
+        expect(user.baz).to.equal('bim');
+        done();
+      });
+    });
+  });
+
+  describe('.find', function(){
+    it('should find users who are public', function(done){
+      User.find({isVisible:true}, function(err, users){
+        expect(users).to.have.length(2);
+        done();
+      });
+    });
+  });
+
+  describe('.findOne', function(){
+    it('should find a specific user', function(done){
+      User.findOne({email:'bob@aol.com', isVisible:true}, function(err, user){
+        expect(user.email).to.equal('bob@aol.com');
+        done();
+      });
+    });
+  });
+
+  describe('#send', function(){
+    it('should send a text message to a user', function(done){
+      User.findById('000000000000000000000001', function(err, sender){
+        User.findById('000000000000000000000002', function(err, receiver){
+          sender.send(receiver, {mtype:'text', message:'yo'}, function(err, response){
+            expect(response.sid).to.be.ok;
+            done();
+          });
+        });
+      });
     });
   });
 });
-
