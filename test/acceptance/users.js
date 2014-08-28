@@ -112,12 +112,12 @@ describe('users', function(){
   describe('post /message/3', function(){
     it('should send a user a message', function(done){
       request(app)
-      .post('/messages/000000000000000000000001')
+      .post('/message/000000000000000000000002')
       .set('cookie', cookie)
-      .send('')
+      .send('mtype=text&message=hey')
       .end(function(err, res){
         expect(res.status).to.equal(302);
-        expect(res.headers.location).to.equal('/users/bob@aol.com');
+        expect(res.headers.location).to.equal('/users/mkeef1@gmail.com');
         done();
       });
     });

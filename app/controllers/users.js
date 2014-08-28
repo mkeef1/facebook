@@ -51,7 +51,7 @@ exports.update = function(req, res){
   });
 };
 
-exports.show = function(reg, res){
+exports.show = function(req, res){
   res.render('users/show');
 };
 

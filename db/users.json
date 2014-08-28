@@ -6,7 +6,7 @@
 }
 {
   "_id" : {"$oid":"000000000000000000000002"},
-  "email" : "sam@aol.com",
+  "email" : "mkeef1@gmail.com",
   "password" : "$2a$10$XR.IQktUUujLBxed70GQn.jWY1wZ9ThM0Tar9wTqzkI4Uk1uP2Or2",
   "isVisible" : true,
   "phone": "615-752-8934"
