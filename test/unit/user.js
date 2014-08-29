@@ -5,6 +5,7 @@
 
 var expect    = require('chai').expect,
     User      = require('../../app/models/user'),
+    Message   = require('../../app/models/message'),
     dbConnect = require('../../app/lib/mongodb'),
     cp        = require('child_process'),
     db        = 'facebook-test';
@@ -73,6 +74,19 @@ describe('User', function(){
           sender.send(receiver, {mtype:'email', message:'yo'}, function(err, response){
             expect(response.id).to.be.ok;
             done();
+          });
+        });
+      });
+    });
+
+    it('should send an internal email message to a user', function(done){
+      User.findById('000000000000000000000001', function(err, sender){
+        User.findById('000000000000000000000002', function(err, receiver){
+          sender.send(receiver, {mtype:'internal', message:'internal email'}, function(err, response){
+            Message.collection.count(function(err, count){
+              expect(count).to.equal(4);
+              done();
+            });
           });
         });
       });

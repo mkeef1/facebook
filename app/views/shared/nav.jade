@@ -12,6 +12,9 @@
       ul.nav.navbar-nav.navbar-right
         if user
           li: a(href='/profile') Profile
+          li: a(href='/profile/edit') Edit Profile
+          li: a(href='/inbox') Inbox
+          li= count
           li: a(href='/users') Users
             form.navbar-form(method='post', action='/logout')
               .form-group

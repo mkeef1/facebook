@@ -4,7 +4,8 @@ var bcrypt = require('bcrypt'),
     Mongo  = require('mongodb'),
     _      = require('lodash'),
     twilio = require('twilio'),
-    Mailgun = require('mailgun-js');
+    Mailgun = require('mailgun-js'),
+    Message = require('./message');
 
 function User(){
 }
@@ -71,6 +72,9 @@ User.prototype.send = function(receiver, obj, cb){
       sendEmail(this.email, receiver.email, 'Message from facebook', obj.message, cb);
       break;
     case 'internal':
+      var intData = {from:this.email, to:receiver._id, body:obj.message};
+      sendInternal(intData, cb);
+      break;
   }
 };
 
@@ -92,4 +96,9 @@ function sendEmail(from, to, subject, message, cb){
       data   = {from:from, to:to, subject:subject, text:message};
 
   mailgun.messages().send(data, cb);
+}
+
+function sendInternal(data, cb){
+  var message = new Message(data);
+  Message.collection.save(message, cb);
 }

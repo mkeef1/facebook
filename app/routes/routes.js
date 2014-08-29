@@ -36,6 +36,8 @@ module.exports = function(app, express){
   app.get('/users', users.index);
   app.get('/users/:email', users.person);
   app.post('/message/:userId', users.message);
+  app.get('/inbox', users.inbox);
+  app.get('/inbox/:id', users.showMessage);
   console.log('Express: Routes Loaded');
 };
 

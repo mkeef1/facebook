@@ -117,10 +117,61 @@ describe('users', function(){
       .send('mtype=text&message=hey')
       .end(function(err, res){
         expect(res.status).to.equal(302);
-        expect(res.headers.location).to.equal('/users/mkeef1@gmail.com');
+        expect(res.headers.location).to.equal('/users/jim@aol.com');
+        done();
+      });
+    });
+
+    it('should send a user a email', function(done){
+      request(app)
+      .post('/message/000000000000000000000002')
+      .set('cookie', cookie)
+      .send('mtype=email&message=hi')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/users/jim@aol.com');
+        done();
+      });
+    });
+
+    it('should send a user an internal message', function(done){
+      request(app)
+      .post('/message/000000000000000000000002')
+      .set('cookie', cookie)
+      .send('mtype=internal&message=internal+message')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/users/jim@aol.com');
         done();
       });
     });
   });
+
+  describe(' get /inbox', function(done){
+    it('should show the inbox', function(done){
+      request(app)
+      .get('/inbox')
+      .set('cookie', cookie)
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('Inbox');
+        done();
+      });
+    });
+  });
+
+  describe(' get /inbox/:index', function(done){
+    it('should show a message', function(done){
+      request(app)
+      .get('/inbox/a00000000000000000000002')
+      .set('cookie', cookie)
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('From');
+        done();
+      });
+    });
+  });
+
 });
 
